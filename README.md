@@ -26,12 +26,12 @@ Then add these changes (COROUTINE_START, COROUTINE_PREEMPT, COROUTINE_END, and m
 void coroutine_function() {
 	static int i = 0;
 
-	*COROUTINE_START*
+	COROUTINE_START
 	for (; i < 100; ++i) {
 		printf("%d ", i);
 
-		*COROUTINE_PREEMPT*
+		COROUTINE_PREEMPT
 	}
-	*COROUTINE_END*
+	COROUTINE_END
 }
 ```
