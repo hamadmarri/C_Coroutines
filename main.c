@@ -8,7 +8,7 @@ int main() {
 	initializeCoroutines();
 	addCoroutine(&do_stuff1);
 	addCoroutine(&do_stuff2);
-	startCoroutine();
+	startCoroutines();
 
 	return 0;
 }

@@ -57,7 +57,7 @@ void addCoroutine(void (*ptrFun)()) {
 }
 
 
-void startCoroutine() {
+void startCoroutines() {
 
 	int r = setjmp(coroutines[0].thread);
 
