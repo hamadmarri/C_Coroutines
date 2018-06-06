@@ -65,3 +65,9 @@ void coroutine_function() {
 
 // number of iterations or "time" that is given to each coroutine before release to other coroutines
 #define MAX_NUM_OF_ITERATIONS 5
+
+
+# Credits
+https://www.chiark.greenend.org.uk/~sgtatham/coroutines.html 
+
+by Simon Tatham
