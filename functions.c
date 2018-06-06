@@ -4,7 +4,7 @@ void do_stuff1() {
 	static int i = 0;
 
 	COROUTINE_START
-	for (; i < 100; ++i) {
+	for (; i < 50; ++i) {
 		printf("%d ", i);
 
 		COROUTINE_PREEMPT

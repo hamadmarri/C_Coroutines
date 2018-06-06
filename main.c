@@ -3,6 +3,12 @@
 #include "coroutines.c"
 #include "functions.c"
 
+/*
+Author: Hamad Al Marri
+Credits: https://www.chiark.greenend.org.uk/~sgtatham/coroutines.html 
+by Simon Tatham
+*/
+
 int main() {
 
 	initializeCoroutines();
