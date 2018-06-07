@@ -1,7 +1,7 @@
 
 
 // maximum number of coroutines
-#define MAX_COROUTINES 5
+#define MAX_COROUTINES 100004
 
 // number of iterations or "time" that is given to each coroutine before release to other coroutines
 #define MAX_NUM_OF_ITERATIONS 5
@@ -15,8 +15,9 @@
 switch (r) {\
 	case 0:
 
-// each coroutine function (with args) must use LOAD_ARGS macro to setjmp and then load args
-#define LOAD_ARGS int r = setjmp(here->thread);
+
+// each coroutine function (with args) must use COROUTINE_LOAD_ARGS macro to setjmp and then load args
+#define COROUTINE_LOAD_ARGS int r = setjmp(here->thread);
 
 
 // each coroutine function (with args) must use COROUTINE_START_WITH_ARGS macro to start switch
@@ -64,8 +65,8 @@ struct Coroutine {
 	// int yield;
 };
 
-// array of coroutines
-struct Coroutine coroutines[MAX_COROUTINES];
+// array of coroutines ( +1 for the master coroutine)
+struct Coroutine coroutines[MAX_COROUTINES + 1];
 
 // pointer to the first coroutine in the array, which is the manager coroutine (i.e. startCoroutines() function)
 struct Coroutine *manager = NULL;
@@ -76,7 +77,7 @@ struct Coroutine *here = NULL;
 
 
 void initializeCoroutines() {
-	for (int i = 0; i < MAX_COROUTINES; ++i) {
+	for (int i = 0; i < MAX_COROUTINES + 1; ++i) {
 		coroutines[i].ptrFun = NULL;
 		coroutines[i].started = false;
 		coroutines[i].done = true;
@@ -91,7 +92,7 @@ void initializeCoroutines() {
 
 
 void addCoroutine(void (*ptrFun)(), void* args[]) {
-	if (index + 1 < MAX_COROUTINES) {
+	if (index < MAX_COROUTINES) {
 		coroutines[++index].ptrFun = ptrFun;
 		coroutines[index].done = false;
 		coroutines[index].args = args;
@@ -125,7 +126,7 @@ void startCoroutines() {
 				// if coroutine is not started yet, need to call the coroutine function first
 				if (!coroutines[i].started) {
 					coroutines[i].started = true; // mark it as started
-					(*coroutines[i].ptrFun)(); // calling the coroutine function
+					coroutines[i].ptrFun(); // calling the coroutine function
 				} else {
 					// if it is already started, means it has already setjmp, so will longjmp to it
 					longjmp(coroutines[i].thread, 1);
