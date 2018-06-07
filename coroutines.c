@@ -1,7 +1,7 @@
 
 
 // maximum number of coroutines
-#define MAX_COROUTINES 4
+#define MAX_COROUTINES 5
 
 // number of iterations or "time" that is given to each coroutine before release to other coroutines
 #define MAX_NUM_OF_ITERATIONS 5
@@ -10,9 +10,17 @@
 #define false 0
 
 
-// each coroutine function must use start macro to setjmp
+// each coroutine function (with no args) must use start macro to setjmp
 #define COROUTINE_START int r = setjmp(here->thread);\
 switch (r) {\
+	case 0:
+
+// each coroutine function (with args) must use LOAD_ARGS macro to setjmp and then load args
+#define LOAD_ARGS int r = setjmp(here->thread);
+
+
+// each coroutine function (with args) must use COROUTINE_START_WITH_ARGS macro to start switch
+#define COROUTINE_START_WITH_ARGS switch (r) {\
 	case 0:
 
 
@@ -52,6 +60,7 @@ struct Coroutine {
 	int started;
 	int done;
 	int num_of_iterations;
+	void **args;
 	// int yield;
 };
 
@@ -72,6 +81,7 @@ void initializeCoroutines() {
 		coroutines[i].started = false;
 		coroutines[i].done = true;
 		coroutines[i].num_of_iterations = MAX_NUM_OF_ITERATIONS;
+		coroutines[i].args = NULL;
 	}
 
 	// startCoroutines() is first coroutine
@@ -80,10 +90,11 @@ void initializeCoroutines() {
 }
 
 
-void addCoroutine(void (*ptrFun)()) {
+void addCoroutine(void (*ptrFun)(), void* args[]) {
 	if (index + 1 < MAX_COROUTINES) {
 		coroutines[++index].ptrFun = ptrFun;
 		coroutines[index].done = false;
+		coroutines[index].args = args;
 		num_of_coroutines++;
 	}
 }
