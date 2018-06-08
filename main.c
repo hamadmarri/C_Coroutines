@@ -10,32 +10,49 @@ Credits: https://www.chiark.greenend.org.uk/~sgtatham/coroutines.html
 by Simon Tatham
 */
 
+
+void callbackFib(long *f) {
+	printf("callbackFib:\t\t%ld\n", *f);
+}
+
 int main() {
 
 	initializeCoroutines();
 
-	addCoroutine(&do_stuff1, NULL);
+	addCoroutine(&print_numbers, NULL);
 	
-	void* args[] = {"$$$$$", (void*) 6};
-	addCoroutine(&print_my_name, args);
+	addCoroutine(&print_letters, NULL);
 
-	addCoroutine(&do_stuff2, NULL);
+	void* args[] = {"$$$$$", (void*) 6};
+	addCoroutine(&print_args1, args);
 
 	void* args2[] = {"####", (void*) 11};
-	addCoroutine(&print_my_name2, args2);
+	addCoroutine(&print_args2, args2);
 
-	void *args3[10][3];
+	void *args3[5][3];
 
-	for (long i = 0; i < 10; ++i) {
+	for (long i = 0; i < 5; ++i) {
 		char *is = (char*) malloc(3);
 		snprintf (is, sizeof(is), "%ld", i);
 
-		args3[i][0] = is; // print id
-		args3[i][1] = (void*) 0; // counter
-		args3[i][2] = (void*) 11; // times
+		args3[i][0] = is; 			// name
+		args3[i][1] = (void*) 0; 	// i
+		args3[i][2] = (void*) 10; 	// times
 
-		addCoroutine(&multipule_calls, args3[i]);
+		addCoroutine(&multipule_copies, args3[i]);
 	}
+
+
+	void* args4[] = {
+		(void*) 0,				// i
+		(void*) 0,				// a
+		(void*) 1,				// b
+		(void*) 20, 			// size
+		(void*) &callbackFib,	// callback function
+	};
+
+
+	addCoroutine(&fib, args4);
 
 	startCoroutines();
 

@@ -1,7 +1,7 @@
 
 
 // maximum number of coroutines
-#define MAX_COROUTINES 20
+#define MAX_COROUTINES 100
 
 // number of iterations or "time" that is given to each coroutine before release to other coroutines
 #define MAX_NUM_OF_ITERATIONS 4
