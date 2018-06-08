@@ -53,7 +53,7 @@ static int num_of_coroutines = 0;
 	 	int num_of_iterations: 	number of iterations or "time" that is given to the coroutine before release to other
 	 							coroutines (can be removed and be global if needed)
 	 							the current approach is useful for varying each coroutine iterations separately
-	 	int yield: if the function need to return values from time to time (or yields) then this field can be used
+	 	void **args: generic array of (void*) type. Usage in main.c						
 */
 struct Coroutine {
 	jmp_buf thread;
@@ -62,7 +62,6 @@ struct Coroutine {
 	int done;
 	int num_of_iterations;
 	void **args;
-	// int yield;
 };
 
 // array of coroutines ( +1 for the master coroutine)
