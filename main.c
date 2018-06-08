@@ -24,15 +24,15 @@ int main() {
 	void* args2[] = {"####", (void*) 11};
 	addCoroutine(&print_my_name2, args2);
 
-	void *args3[100000][3];
+	void *args3[10][3];
 
-	for (long i = 0; i < 100000; ++i) {
+	for (long i = 0; i < 10; ++i) {
 		char *is = (char*) malloc(3);
 		snprintf (is, sizeof(is), "%ld", i);
 
 		args3[i][0] = is; // print id
 		args3[i][1] = (void*) 0; // counter
-		args3[i][2] = (void*) 100; // times
+		args3[i][2] = (void*) 11; // times
 
 		addCoroutine(&multipule_calls, args3[i]);
 	}

@@ -66,18 +66,18 @@ void print_my_name2() {
 
 void multipule_calls() {
 	char *name;
-	long i;
+	long *i;
 	long times;
 
 	COROUTINE_LOAD_ARGS
 	name = (char*) here->args[0];
-	i = (long) here->args[1];
+	i = (long*) &(here->args[1]);
 	times = (long) here->args[2];
 
 	COROUTINE_START_WITH_ARGS
 
-	for (;i < times; ++i, here->args[1] = (void*)i) {
-		printf("-%s ", name);
+	for (;*i < times; ++(*i)) {
+		printf("(%s) ", name);
 		COROUTINE_PREEMPT
 	}
 
