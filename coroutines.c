@@ -25,6 +25,9 @@ switch (r) {\
 	case 0:
 
 
+#define COROUTINE_ARG (void*)
+
+
 // each coroutine function must use preempt macro to go back to manager coroutine, which is the startCoroutines() function
 #define COROUTINE_PREEMPT if (--here->num_of_iterations == 0) {\
 	here->num_of_iterations = MAX_NUM_OF_ITERATIONS;\
