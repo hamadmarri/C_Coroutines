@@ -79,14 +79,6 @@ struct Coroutine *here = NULL;
 
 
 void initializeCoroutines() {
-	for (int i = 0; i < MAX_COROUTINES + 1; ++i) {
-		coroutines[i].ptrFun = NULL;
-		coroutines[i].started = false;
-		coroutines[i].done = true;
-		coroutines[i].num_of_iterations = MAX_NUM_OF_ITERATIONS;
-		coroutines[i].args = NULL;
-	}
-
 	// startCoroutines() is first coroutine
 	num_of_coroutines = 1;
 	manager = &(coroutines[0]);
@@ -96,7 +88,9 @@ void initializeCoroutines() {
 void addCoroutine(void (*ptrFun)(), void* args[]) {
 	if (index < MAX_COROUTINES) {
 		coroutines[++index].ptrFun = ptrFun;
+		coroutines[index].started = false;
 		coroutines[index].done = false;
+		coroutines[index].num_of_iterations = MAX_NUM_OF_ITERATIONS;
 		coroutines[index].args = args;
 		num_of_coroutines++;
 	}
