@@ -19,16 +19,22 @@ int main() {
 
 	initializeCoroutines();
 
+	// simple coroutine example
 	addCoroutine(&print_numbers, NULL);
 	
+	// another simple coroutine example
 	addCoroutine(&print_letters, NULL);
 
+	// passing arguments to coroutine function example 1
 	void* args[] = {COROUTINE_ARG "$$$$$", COROUTINE_ARG 6};
 	addCoroutine(&print_args1, args);
 
+	// passing arguments to coroutine function example 2
 	void* args2[] = {COROUTINE_ARG "####", COROUTINE_ARG 11};
 	addCoroutine(&print_args2, args2);
 
+
+	// calling the same coroutine function 5 times example
 	void *args3[5][3];
 
 	for (long i = 0; i < 5; ++i) {
@@ -43,6 +49,7 @@ int main() {
 	}
 
 
+	// callback function is passed to args example
 	void* args4[] = {
 		COROUTINE_ARG 0,				// i
 		COROUTINE_ARG 0,				// a
