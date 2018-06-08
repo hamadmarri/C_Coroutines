@@ -36,7 +36,7 @@ void print_args1() {
 
 	/*
 		this approach looks nicer, but loading args in local veriables
-		everytime might not be a good idea, print_my_name2 uses direct casting
+		everytime might not be a good idea, print_args2 uses direct casting
 	*/
 	COROUTINE_LOAD_ARGS // reload args
 	name = (char*) here->args[0];
