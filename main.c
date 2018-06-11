@@ -37,7 +37,7 @@ int main() {
 	void *args3[5][3];
 
 	for (long i = 0; i < 5; ++i) {
-		char *is = (char*) malloc(4);
+		char *is = (char*) malloc(sizeof(long));
 		snprintf (is, sizeof(is), "%ld", i);
 
 		args3[i][0] = COROUTINE_ARG is; 	// name
