@@ -37,7 +37,7 @@ int main() {
 	void *args3[5][3];
 
 	for (long i = 0; i < 5; ++i) {
-		char *is = (char*) malloc(32);
+		char *is = (char*) malloc(4);
 		snprintf (is, sizeof(is), "%ld", i);
 
 		args3[i][0] = COROUTINE_ARG is; 	// name
@@ -47,8 +47,6 @@ int main() {
 		addCoroutine(&multipule_copies, args3[i]);
 	}
 
-
-	
 	// callback function is passed to args example
 	void* args4[] = {
 		COROUTINE_ARG 0,				// i
@@ -62,6 +60,12 @@ int main() {
 	addCoroutine(&fib, args4);
 
 	startCoroutines();
+
+
+	
+	// free memory
+	for (long i = 0; i < 5; ++i)
+		free(args3[i][0]);
 
 
 	return 0;
