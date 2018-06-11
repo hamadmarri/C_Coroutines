@@ -1,4 +1,4 @@
-
+#include <setjmp.h>
 
 // maximum number of coroutines
 #define MAX_COROUTINES 100
@@ -25,9 +25,6 @@ switch (r) {\
 	case 0:
 
 
-#define COROUTINE_ARG (void*)
-
-
 // each coroutine function must use preempt macro to go back to manager coroutine, which is the startCoroutines() function
 #define COROUTINE_PREEMPT if (--here->num_of_iterations == 0) {\
 	here->num_of_iterations = MAX_NUM_OF_ITERATIONS;\
@@ -36,9 +33,15 @@ switch (r) {\
 case 1:;
 
 // if the coroutine is done must use this macro at the end of the function to mark itself as done
-#define COROUTINE_END here->done = true;\
+#define COROUTINE_END }\
+here->done = true;\
 longjmp(manager->thread, 1);\
-} // end switch
+while(1); // for no return function
+
+
+#define COROUTINE_FUNCTION __attribute__((noreturn))
+
+#define COROUTINE_ARG (void*)
 
 
 // index for adding coroutines

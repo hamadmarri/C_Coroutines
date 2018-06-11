@@ -1,6 +1,6 @@
 
 
-void print_numbers() {
+COROUTINE_FUNCTION void print_numbers() {
 	static int i = 0;
 
 	COROUTINE_START
@@ -13,7 +13,7 @@ void print_numbers() {
 }
 
 
-void print_letters() {
+COROUTINE_FUNCTION void print_letters() {
 	static int i = 65;
 
 	COROUTINE_START
@@ -29,7 +29,7 @@ void print_letters() {
 }
 
 
-void print_args1() {
+COROUTINE_FUNCTION void print_args1() {
 	static int i = 0;
 	char *name;
 	long times;
@@ -51,7 +51,7 @@ void print_args1() {
 }
 
 
-void print_args2() {
+COROUTINE_FUNCTION void print_args2() {
 	// direct args casting
 	static int i = 0;
 
@@ -64,7 +64,7 @@ void print_args2() {
 }
 
 
-void multipule_copies() {
+COROUTINE_FUNCTION void multipule_copies() {
 	char *name;
 	long *i;
 	long times;
@@ -86,7 +86,7 @@ void multipule_copies() {
 
 
 
-void fib() {
+COROUTINE_FUNCTION void fib() {
 	long *i;
 	long *a;
 	long *b;
