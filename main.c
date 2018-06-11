@@ -11,8 +11,8 @@ by Simon Tatham
 */
 
 
-void callbackFib(long *f) {
-	printf("callbackFib:\t\t%ld\n", *f);
+void callbackFib(long f) {
+	printf("callbackFib:\t\t%ld\n", f);
 }
 
 int main() {
@@ -38,7 +38,7 @@ int main() {
 	void *args3[5][3];
 
 	for (long i = 0; i < 5; ++i) {
-		char *is = (char*) malloc(3);
+		char *is = (char*) malloc(32);
 		snprintf (is, sizeof(is), "%ld", i);
 
 		args3[i][0] = COROUTINE_ARG is; 	// name
@@ -49,6 +49,7 @@ int main() {
 	}
 
 
+	
 	// callback function is passed to args example
 	void* args4[] = {
 		COROUTINE_ARG 0,				// i
@@ -62,6 +63,7 @@ int main() {
 	addCoroutine(&fib, args4);
 
 	startCoroutines();
+
 
 	return 0;
 }

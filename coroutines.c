@@ -32,12 +32,13 @@ switch (r) {\
 #define COROUTINE_PREEMPT if (--here->num_of_iterations == 0) {\
 	here->num_of_iterations = MAX_NUM_OF_ITERATIONS;\
 	longjmp(manager->thread, 1);\
-	case 1:;\
-}
+}\
+case 1:;
 
 // if the coroutine is done must use this macro at the end of the function to mark itself as done
-#define COROUTINE_END }\
-here->done = true;
+#define COROUTINE_END here->done = true;\
+longjmp(manager->thread, 1);\
+} // end switch
 
 
 // index for adding coroutines
@@ -68,7 +69,7 @@ struct Coroutine {
 };
 
 // array of coroutines ( +1 for the master coroutine)
-struct Coroutine coroutines[MAX_COROUTINES + 1];
+static struct Coroutine coroutines[MAX_COROUTINES + 1];
 
 // pointer to the first coroutine in the array, which is the manager coroutine (i.e. startCoroutines() function)
 struct Coroutine *manager = NULL;
@@ -105,13 +106,14 @@ void addCoroutine(void (*ptrFun)(), void* args[]) {
 */
 void startCoroutines() {
 
+	volatile int i = 1;
 	int r = setjmp(coroutines[0].thread);
 
 	switch (r) {
 		case 0:
 		do {
 			coroutines[0].done = true;
-			for (int i = 1; i < num_of_coroutines; ++i) {
+			for (i = 1; i < num_of_coroutines; ++i) {
 				
 				if (coroutines[i].done) 
 					continue;
@@ -128,10 +130,9 @@ void startCoroutines() {
 					longjmp(coroutines[i].thread, 1);
 					case 1:;
 				}
-				
 			}
 
 		} while (!coroutines[0].done);
-	}
+	} // switch
 }
 

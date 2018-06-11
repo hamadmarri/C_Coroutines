@@ -92,27 +92,27 @@ void fib() {
 	long *b;
 	long c;
 	long size;
-	void (*ptrCallBack)(long*);
+	void (*ptrCallBack)(long);
 
 	COROUTINE_LOAD_ARGS
 	i = (long*) &(here->args[0]);
 	a = (long*) &(here->args[1]);
 	b = (long*) &(here->args[2]);
 	size = (long) here->args[3];
-	ptrCallBack = (void (*)(long*)) (here->args[4]);
+	ptrCallBack = (void (*)(long)) (here->args[4]);
 
 	COROUTINE_START_WITH_ARGS
 	if (*i < size)
-		ptrCallBack(i);
+		ptrCallBack(*i);
 
 	if (++(*i) < size)
-		ptrCallBack(i);
+		ptrCallBack(*i);
 
 	for (*i = 2; *i < size; ++(*i)) {
 		c = *b + *a;
 		*a = *b;
 		*b = c;
-		ptrCallBack(&c);
+		ptrCallBack(c);
 
 		COROUTINE_PREEMPT
 	}
